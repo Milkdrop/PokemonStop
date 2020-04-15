@@ -22,7 +22,10 @@ public class GameManager : MonoBehaviour {
     }
 
     public void Register (string email, string password, string latitude, string longitude) {
-        string returnValue = httpReq.GET ("");
-        Debug.Log ("Register return value: " + returnValue);
+        httpReq.GET ("", RegData);
+    }
+
+    public void RegData (string data) {
+        Debug.Log ("Register return value: " + data);
     }
 }

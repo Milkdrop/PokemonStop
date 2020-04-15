@@ -5,21 +5,17 @@ using UnityEngine;
 
 public class HTTPRequester : MonoBehaviour {
     
+    public delegate void callBackFun(string parameter);
+
     private string apiEndpoint = "http://api.peymen.com/";
     private string returnValue;
 
-    public string GET (string path) {
-        StartCoroutine (InternalGET (path));
-        return returnValue;
+    public void GET (string path, callBackFun callBack) {
+        StartCoroutine (InternalGET (path, callBack));
     }
 
-    private void SetReturnValue (string value) {
-        returnValue = value;
-    }
-
-    private IEnumerator InternalGET (string path) {
+    private IEnumerator InternalGET (string path, callBackFun callBack) {
         UnityWebRequest www = UnityWebRequest.Get (apiEndpoint + path);
-
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError) {
@@ -28,8 +24,7 @@ public class HTTPRequester : MonoBehaviour {
             Debug.Log("Form upload complete!");
         }
 
-        Debug.Log ("Output: " + www.downloadHandler.text);
-        returnValue = www.downloadHandler.text;
+        callBack (www.downloadHandler.text);
     }
 
     private IEnumerator InternalPOST () {
@@ -46,5 +41,9 @@ public class HTTPRequester : MonoBehaviour {
         } else {
             Debug.Log("Form upload complete!");
         }
+    }
+
+    private IEnumerator Sleep (float time) {
+        yield return new WaitForSeconds (time);
     }
 }
