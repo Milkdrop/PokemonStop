@@ -11,7 +11,9 @@ public class UIManager : MonoBehaviour {
 
     public GameObject registerScreen;
     public GameObject loginScreen;
+    public GameObject menuScreen;
 
+    public InputField registerName;
     public InputField registerEmail;
     public InputField registerPassword;
     public InputField registerPasswordRepeat;
@@ -28,15 +30,21 @@ public class UIManager : MonoBehaviour {
 
         if (gm.token == "") {
             SpawnRegisterScreen ();
+        } else {
+            gm.InitDaemon ();
         }
     }
 
     public void Register () {
         if (registerPassword.text == registerPasswordRepeat.text) {
-            gm.Register (registerEmail.text, registerPassword.text, registerLat.text, registerLong.text);
+            gm.Register (registerName.text, registerEmail.text, registerPassword.text, registerLat.text, registerLong.text);
         } else {
             PushError ("Passwords don't match!");
         }
+    }
+
+    public void Login () {
+        gm.Login (loginEmail.text, loginPassword.text);
     }
 
     public void SpawnRegisterScreen () {
@@ -47,6 +55,11 @@ public class UIManager : MonoBehaviour {
     public void SpawnLoginScreen () {
         DeactivateScreens ();
         loginScreen.SetActive (true);
+    }
+
+    public void SpawnMenuScreen () {
+        DeactivateScreens ();
+        menuScreen.SetActive (true);
     }
 
     void DeactivateScreens () {

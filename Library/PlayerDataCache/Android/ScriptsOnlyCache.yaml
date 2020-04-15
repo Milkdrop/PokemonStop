@@ -2,15 +2,19 @@ ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
     - GameManager
+    - HTTPRequester
     - UIManager
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.TestListCacheData
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
+    - UnityEngine.EventSystems.EventTrigger
     - UnityEngine.EventSystems.StandaloneInputModule
+    - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
+    - UnityEngine.UI.InputField
     - UnityEngine.UI.Text
   sceneClasses:
     Assets/Scenes/SampleScene.unity:
@@ -35,17 +39,25 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 9374}
+      Script: {instanceID: 9370}
+    - Class: 114
+      Script: {instanceID: 9372}
+    - Class: 114
+      Script: {instanceID: 9378}
     - Class: 114
       Script: {instanceID: 9380}
     - Class: 114
-      Script: {instanceID: 9386}
+      Script: {instanceID: 9384}
+    - Class: 114
+      Script: {instanceID: 9392}
     - Class: 114
       Script: {instanceID: 9394}
     - Class: 114
+      Script: {instanceID: 9428}
+    - Class: 114
       Script: {instanceID: 9430}
     - Class: 114
-      Script: {instanceID: 9432}
+      Script: {instanceID: 9472}
     - Class: 114
       Script: {instanceID: 9762}
     - Class: 114
@@ -55,6 +67,8 @@ ScriptsOnlyBuild:
     - Class: 128
       Script: {instanceID: 0}
     - Class: 157
+      Script: {instanceID: 0}
+    - Class: 213
       Script: {instanceID: 0}
     - Class: 222
       Script: {instanceID: 0}
@@ -299,6 +313,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_InputField
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: HTTPRequester
   - hash:
       serializedVersion: 2
       Hash: cf9f5cf2c3145a37ac07f00e50e460f9
@@ -547,7 +567,7 @@ ScriptsOnlyBuild:
     className: ControlTrack
   - hash:
       serializedVersion: 2
-      Hash: 52ca14e8d3d99999628e5eb44fabddfb
+      Hash: d9b553ba94830d58b31253acdf57c39b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -691,7 +711,7 @@ ScriptsOnlyBuild:
     className: TMP_ColorGradient
   - hash:
       serializedVersion: 2
-      Hash: 326ef8ced6a4cec7fb1e44787bfbae49
+      Hash: d6e8daca1f15b161ea42c65a4fed999d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: UIManager

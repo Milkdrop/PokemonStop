@@ -14,13 +14,16 @@ public class HttpRequester extends AsyncTask<String,Integer,String> {
 
         try {
             URL url = new URL (params[0]);
-            String data = params[1];
+            String token = params[1];
+            String data = params[2];
 
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             // setting the  Request Method Type
             httpURLConnection.setRequestMethod("POST");
             // adding the headers for request
             httpURLConnection.setRequestProperty("Content-Type", "application/json");
+            httpURLConnection.setRequestProperty("Authorization", "Bearer " + token);
+
             try{
                 //to tell the connection object that we will be wrting some data on the server and then will fetch the output result
                 httpURLConnection.setDoOutput(true);

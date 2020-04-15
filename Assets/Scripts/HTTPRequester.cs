@@ -7,7 +7,7 @@ public class HTTPRequester : MonoBehaviour {
     
     public delegate void callBackFun(int responseCode, string data);
 
-    private string apiEndpoint = "http://api.peymen.com";
+    private string apiEndpoint = "https://api.peymen.com";
 
     public IEnumerator GET (string path, callBackFun callBack) {
         UnityWebRequest www = UnityWebRequest.Get (apiEndpoint + path);

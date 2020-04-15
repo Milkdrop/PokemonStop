@@ -54,7 +54,7 @@ public class BGService extends Service {
 
                 String data = "{\"lat\":\"" + location.getLatitude() + "\", \"long\":\"" + location.getLongitude() + "\"}";
 
-                new HttpRequester().execute ("https://webhook.site/5de62bce-d222-456a-9232-5ba6824e1905/ping", data);
+                new HttpRequester().execute ("https://api.peymen.com/location", token, data);
                 handler.postDelayed (runnable, 5000);
             }
         };
