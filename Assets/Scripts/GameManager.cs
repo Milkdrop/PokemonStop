@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void Register (string name, string email, string password, string latitude, string longitude) {
+        Debug.Log (latitude + " " + longitude);
         Dictionary<string, string> data = new Dictionary<string,string>{{"name", name}, {"email", email}, {"password", password}, {"safe_lat", latitude}, {"safe_long", longitude}};
         StartCoroutine (httpReq.POST ("/register", data, GetPlayerData));
     }

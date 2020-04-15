@@ -17,8 +17,7 @@ public class UIManager : MonoBehaviour {
     public InputField registerEmail;
     public InputField registerPassword;
     public InputField registerPasswordRepeat;
-    public InputField registerLat;
-    public InputField registerLong;
+    public InputField registerLocation;
 
     public InputField loginEmail;
     public InputField loginPassword;
@@ -37,7 +36,16 @@ public class UIManager : MonoBehaviour {
 
     public void Register () {
         if (registerPassword.text == registerPasswordRepeat.text) {
-            gm.Register (registerName.text, registerEmail.text, registerPassword.text, registerLat.text, registerLong.text);
+            string[] location = registerLocation.text.Split (',');
+            if (location.Length != 2) {
+                PushError ("Location input is invalid. An example for valid input is 1.2, 2.3");
+            } else {
+                if (double.TryParse(location[0], out double num) && double.TryParse (location[1], out double num2)) {
+                    gm.Register (registerName.text, registerEmail.text, registerPassword.text, location[0], location[1]);
+                } else {
+                    PushError ("Location input is invalid. An example for valid input is 1.2, 2.3");
+                }
+            }
         } else {
             PushError ("Passwords don't match!");
         }
@@ -64,7 +72,7 @@ public class UIManager : MonoBehaviour {
 
     void DeactivateScreens () {
         PushError ("");
-        for (int i = 1; i < transform.childCount; i++) { // First child is background
+        for (int i = 1; i < transform.childCount - 1; i++) { // First and last children are non menus
             transform.GetChild (i).gameObject.SetActive (false);
         }
     }
