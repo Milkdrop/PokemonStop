@@ -7,8 +7,10 @@ public class GameManager : MonoBehaviour {
 
     [HideInInspector]
     public string token;
-    
+    private HTTPRequester httpReq;
+
     void Start() {
+        httpReq = transform.GetComponent<HTTPRequester>();
         Input.location.Start();
         token = PlayerPrefs.GetString ("token", "");
 
@@ -20,6 +22,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void Register (string email, string password, string latitude, string longitude) {
-        string returnValue = StartCoroutine (HTTPRequester.GET (""));
+        string returnValue = httpReq.GET ("");
+        Debug.Log ("Register return value: " + returnValue);
     }
 }

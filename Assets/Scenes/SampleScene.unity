@@ -2517,7 +2517,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1187690986}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1653015560}
+        m_MethodName: Register
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1187690986
@@ -3039,6 +3050,13 @@ MonoBehaviour:
   modelHeight: 2100
   registerScreen: {fileID: 291936768}
   loginScreen: {fileID: 21850605}
+  registerEmail: {fileID: 747877922}
+  registerPassword: {fileID: 1051068383}
+  registerPasswordRepeat: {fileID: 1074523386}
+  registerLat: {fileID: 1685546908}
+  registerLong: {fileID: 1762113943}
+  loginEmail: {fileID: 817486111}
+  loginPassword: {fileID: 128226490}
 --- !u!1 &1685546906
 GameObject:
   m_ObjectHideFlags: 0
@@ -3416,6 +3434,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1782290125}
   - component: {fileID: 1782290124}
+  - component: {fileID: 1782290126}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3436,6 +3455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   token: 
+  httpReq: {fileID: 0}
 --- !u!4 &1782290125
 Transform:
   m_ObjectHideFlags: 0
@@ -3450,6 +3470,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1782290126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782290123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc209632ba4f6ba44bf6482c1b29b70e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  apiEndpoint: http://api.peymen.com/
 --- !u!1 &1789021818
 GameObject:
   m_ObjectHideFlags: 0

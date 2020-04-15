@@ -5,20 +5,19 @@ using UnityEngine;
 
 public class HTTPRequester : MonoBehaviour {
     
-    public static string apiEndpoint = "http://api.peymen.com/";
-    private static string returnValue;
+    private string apiEndpoint = "http://api.peymen.com/";
+    private string returnValue;
 
-    public static string GET (string path) {
+    public string GET (string path) {
         StartCoroutine (InternalGET (path));
-
         return returnValue;
     }
 
-    private static void SetReturnValue (string value) {
+    private void SetReturnValue (string value) {
         returnValue = value;
     }
 
-    public static IEnumerator InternalGET (string path) {
+    private IEnumerator InternalGET (string path) {
         UnityWebRequest www = UnityWebRequest.Get (apiEndpoint + path);
 
         yield return www.SendWebRequest();
@@ -29,10 +28,11 @@ public class HTTPRequester : MonoBehaviour {
             Debug.Log("Form upload complete!");
         }
 
-        returnValue = www.downloadHandler.text
+        Debug.Log ("Output: " + www.downloadHandler.text);
+        returnValue = www.downloadHandler.text;
     }
 
-    private static IEnumerator InternalPOST () {
+    private IEnumerator InternalPOST () {
         List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
         formData.Add(new MultipartFormDataSection("field1=foo&field2=bar"));
         formData.Add(new MultipartFormFileSection("my file data", "myfile.txt"));
