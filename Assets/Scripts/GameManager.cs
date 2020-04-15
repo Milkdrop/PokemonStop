@@ -4,15 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-    private int i = 0;
-    public Text uiText;
 
+    public string token;
+    
     void Start() {
-        InvokeRepeating ("PingServer", 0, 1);
-    }
-
-    void PingServer () {
-        i++;
-        uiText.text = i + "";
+        token = PlayerPrefs.GetString ("token", "");
     }
 }

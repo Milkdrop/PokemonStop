@@ -55,7 +55,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\GameManager.cs" />
+     <Compile Include="Assets\Scripts\AndroidTest.cs" />
+     <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\UIManager.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/Orca/Projects/PokemonStop/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
