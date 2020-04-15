@@ -7,7 +7,7 @@ public class HTTPRequester : MonoBehaviour {
     
     public delegate void callBackFun(int responseCode, string data);
 
-    private string apiEndpoint = "https://webhook.site/5de62bce-d222-456a-9232-5ba6824e1905";
+    private string apiEndpoint = "http://api.peymen.com";
 
     public IEnumerator GET (string path, callBackFun callBack) {
         UnityWebRequest www = UnityWebRequest.Get (apiEndpoint + path);
@@ -16,7 +16,7 @@ public class HTTPRequester : MonoBehaviour {
         if (www.isNetworkError || www.isHttpError) {
             Debug.Log(www.error);
         }
-
+        
         callBack ((int) www.responseCode, www.downloadHandler.text);
     }
 

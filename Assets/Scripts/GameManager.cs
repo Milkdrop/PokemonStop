@@ -37,15 +37,19 @@ public class GameManager : MonoBehaviour {
         Dictionary<string, string> response = JsonConvert.DeserializeObject<Dictionary<string, string>>(data);
         Debug.Log (response);
 
-        if (responseCode == 200) {
+        if (response == null) {
+            uiMan.PushError ("API Server offline :(");
+        } else if (responseCode == 422) {
+            uiMan.PushError ("Input invalid");
+        } else if (responseCode == 200) {
             if (response["status"] == "success") {
                 token = response["api_key"];
                 PlayerPrefs.SetString ("token", token);
             } else {
-                uiMan.PushError ();
+                uiMan.PushError ("Error");
             }
         } else {
-            uiMan.PushError ();
+            uiMan.PushError ("Unknown Error");
         }
     }
 }

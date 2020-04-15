@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour {
         if (registerPassword.text == registerPasswordRepeat.text) {
             gm.Register (registerEmail.text, registerPassword.text, registerLat.text, registerLong.text);
         } else {
-            Debug.Log ("Passwords don't match");
+            PushError ("Passwords don't match!");
         }
     }
 
@@ -50,12 +50,13 @@ public class UIManager : MonoBehaviour {
     }
 
     void DeactivateScreens () {
-        for (int i = 0; i < transform.childCount; i++) {
+        PushError ("");
+        for (int i = 1; i < transform.childCount; i++) { // First child is background
             transform.GetChild (i).gameObject.SetActive (false);
         }
     }
 
-    public void PushError () {
-        errorText.gameObject.SetActive (true);
+    public void PushError (string error) {
+        errorText.text = error;
     }
 }
