@@ -21,6 +21,8 @@ public class UIManager : MonoBehaviour {
     public InputField loginEmail;
     public InputField loginPassword;
 
+    public Text errorText;
+
     void Start() {
         transform.localScale = new Vector3 (Screen.width / modelWidth, Screen.height / modelHeight, 1);
 
@@ -51,5 +53,9 @@ public class UIManager : MonoBehaviour {
         for (int i = 0; i < transform.childCount; i++) {
             transform.GetChild (i).gameObject.SetActive (false);
         }
+    }
+
+    public void PushError () {
+        errorText.gameObject.SetActive (true);
     }
 }

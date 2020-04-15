@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
     [HideInInspector]
     public string token;
+    public UIManager uiMan;
     private HTTPRequester httpReq;
 
     void Start() {
@@ -22,10 +24,28 @@ public class GameManager : MonoBehaviour {
     }
 
     public void Register (string email, string password, string latitude, string longitude) {
-        httpReq.GET ("", RegData);
+        Dictionary<string, string> data = new Dictionary<string,string>{{"email", email}, {"password", password}, {"safe_lat", latitude}, {"safe_long", longitude}};
+        StartCoroutine (httpReq.POST ("/register", data, GetPlayerData));
     }
 
-    public void RegData (string data) {
-        Debug.Log ("Register return value: " + data);
+    public void Login (string email, string password) {
+        Dictionary<string, string> data = new Dictionary<string,string>{{"email", email}, {"password", password}};
+        StartCoroutine (httpReq.POST ("/login", data, GetPlayerData));
+    }
+
+    public void GetPlayerData (int responseCode, string data) {
+        Dictionary<string, string> response = JsonConvert.DeserializeObject<Dictionary<string, string>>(data);
+        Debug.Log (response);
+
+        if (responseCode == 200) {
+            if (response["status"] == "success") {
+                token = response["api_key"];
+                PlayerPrefs.SetString ("token", token);
+            } else {
+                uiMan.PushError ();
+            }
+        } else {
+            uiMan.PushError ();
+        }
     }
 }
