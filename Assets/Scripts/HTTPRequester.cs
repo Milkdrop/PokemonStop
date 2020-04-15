@@ -24,6 +24,8 @@ public class HTTPRequester : MonoBehaviour {
             Debug.Log(www.error);
         }
         
+        Debug.Log (www.responseCode);
+        Debug.Log (www.downloadHandler.text);
         callBack ((int) www.responseCode, www.downloadHandler.text);
     }
 
@@ -37,6 +39,8 @@ public class HTTPRequester : MonoBehaviour {
             Debug.Log(www.error);
         }
         
+        Debug.Log (www.responseCode);
+        Debug.Log (www.downloadHandler.text);
         callBack ((int) www.responseCode, www.downloadHandler.text);
     }
 }

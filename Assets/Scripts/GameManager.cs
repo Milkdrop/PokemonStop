@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
+    public UIManager uiMan;
+    private HTTPRequester httpReq;
+
     [HideInInspector]
     public string token;
     [HideInInspector]
@@ -13,8 +16,12 @@ public class GameManager : MonoBehaviour {
     [HideInInspector]
     public string email;
 
-    public UIManager uiMan;
-    private HTTPRequester httpReq;
+    [HideInInspector]
+    public int creatureLevel;
+    [HideInInspector]
+    public int creatureXP;
+    [HideInInspector]
+    public int creatureMaxXP;
 
     void Start() {
         httpReq = transform.GetComponent<HTTPRequester>();
@@ -28,13 +35,11 @@ public class GameManager : MonoBehaviour {
         AndroidJavaObject plugin = new AndroidJavaObject ("com.hashtagh.pokeservice.PingerClass");
         
         plugin.Call ("initialize", activity, token);
+        uiMan.SpawnMenuScreen ();
         StartCoroutine (httpReq.GET ("/my-user", SetPlayerData));
     }
 
     public void SetPlayerData (int responseCode, string data) {
-        Debug.Log (responseCode);
-        Debug.Log (data);
-
         bool valid = false;
 
         if (responseCode == 200) {
@@ -55,12 +60,44 @@ public class GameManager : MonoBehaviour {
         }
         
         if (valid) {
-            uiMan.SpawnMenuScreen ();
+            InvokeRepeating ("RequestCreatureData", 0, 5);
         } else {
             Logout ();
         }
     }
 
+    public void RequestCreatureData () {
+        StartCoroutine (httpReq.GET ("/my-entity", SetCreatureData));
+    }
+    
+    public void SetCreatureData (int responseCode, string data) {
+        bool valid = false;
+
+        if (responseCode == 200) {
+            Dictionary<string, string> response = JsonConvert.DeserializeObject<Dictionary<string, string>>(data);
+
+            if (response["status"] == "success") {
+                creatureLevel = int.Parse (response["level"]);
+                creatureXP = int.Parse (response["exp"]);
+                creatureMaxXP = int.Parse (response["max_exp"]);
+                uiMan.PushError ("");
+                valid = true;
+            } else if (response["status"] == "error") {
+                uiMan.PushError (response["message"]);
+            } else {
+                uiMan.PushError ("Unknown Error");
+            }
+        } else {
+            uiMan.PushError ("Unknown Error");
+        }
+        
+        if (valid) {
+            uiMan.UpdateMenuScreen ();
+        } else {
+            uiMan.PushError ("Cannot fetch creature data");
+        }
+    }
+    
     public void Register (string name, string email, string password, string latitude, string longitude) {
         Debug.Log (latitude + " " + longitude);
         Dictionary<string, string> data = new Dictionary<string,string>{{"name", name}, {"email", email}, {"password", password}, {"safe_lat", latitude}, {"safe_long", longitude}};
@@ -79,9 +116,6 @@ public class GameManager : MonoBehaviour {
     }
 
     public void GetToken (int responseCode, string data) {
-        Debug.Log (responseCode);
-        Debug.Log (data);
-
         Dictionary<string, string> response = JsonConvert.DeserializeObject<Dictionary<string, string>>(data);
 
         if (response == null) {

@@ -28,7 +28,12 @@ public class UIManager : MonoBehaviour {
     public InputField loginPassword;
 
     [Header ("Creature Screen")]
+    public GameObject FetchingMask;
+    public Transform Creatures;
     public Text UsernameText;
+    public Text DayCounterText;
+    public RectTransform XPBarFill;
+    public Text XPText;
 
     void Start() {
         transform.localScale = new Vector3 (Screen.width / modelWidth, Screen.height / modelHeight, 1);
@@ -73,8 +78,37 @@ public class UIManager : MonoBehaviour {
 
     public void SpawnMenuScreen () {
         DeactivateScreens ();
-        UsernameText.text = "Hello, " + gm.username + "!";
         menuScreen.SetActive (true);
+    }
+
+    public void UpdateMenuScreen () {
+        FetchingMask.SetActive (false);
+        UsernameText.text = "Hello, " + gm.username + "!";
+        DayCounterText.text = gm.creatureLevel + "";
+        XPText.text = gm.creatureXP + "/" + gm.creatureMaxXP + "xp";
+
+        if (gm.creatureXP == 0) {
+            XPBarFill.sizeDelta = new Vector2 (0, XPBarFill.rect.height);
+        } else {
+            int width = 50 + (gm.creatureXP / gm.creatureMaxXP) * (633 - 50);
+            XPBarFill.sizeDelta = new Vector2 (width, XPBarFill.rect.height);
+        }
+        
+        int creatureEvolution = 0;
+        if (gm.creatureLevel >= 30) {
+            creatureEvolution = 2;
+        } else if (gm.creatureLevel >= 5) {
+            creatureEvolution = 1;
+        }
+
+        for (int i = 0; i < Creatures.childCount; i++) {
+            GameObject child = Creatures.GetChild (i).gameObject;
+
+            if (i == creatureEvolution)
+                child.gameObject.SetActive (true);
+            else
+                child.gameObject.SetActive (false);
+        }
     }
 
     void DeactivateScreens () {

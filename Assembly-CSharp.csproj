@@ -58,6 +58,7 @@
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\HTTPRequester.cs" />
      <Compile Include="Assets\Scripts\UIManager.cs" />
+     <None Include="Assets\ReversedText.shader" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/Orca/Projects/PokemonStop/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
