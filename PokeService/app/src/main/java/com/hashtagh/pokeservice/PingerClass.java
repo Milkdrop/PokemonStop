@@ -4,19 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.widget.Toast;
 import android.content.Context;
+import android.util.Log;
 
 public class PingerClass {
-    private Context context;
+    public static Context context;
 
-    public void setContext(Context _context) {
+    public void initialize (Context _context, String token) {
         this.context = _context;
-    }
-
-    public void startPluginService() {
-        context.startService (new Intent (context, PingerClass.class));
-    }
-
-    public void showToast() {
-        Toast.makeText (context, "this is my Toast message!", Toast.LENGTH_LONG).show ();
+        Log.i ("Unity", "AAR Started");
+        Intent serviceIntent = new Intent (context, BGService.class);
+        serviceIntent.putExtra ("token", token);
+        context.startService (serviceIntent);
     }
 }
