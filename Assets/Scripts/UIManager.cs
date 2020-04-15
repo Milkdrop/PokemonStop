@@ -5,24 +5,30 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
 
+    [Header ("Config")]
     public GameManager gm;
     public float modelWidth;
     public float modelHeight;
+    public Text errorText;
 
+    [Header ("Screens")]
     public GameObject registerScreen;
     public GameObject loginScreen;
     public GameObject menuScreen;
 
+    [Header ("Registration")]
     public InputField registerName;
     public InputField registerEmail;
     public InputField registerPassword;
     public InputField registerPasswordRepeat;
     public InputField registerLocation;
 
+    [Header ("Login")]
     public InputField loginEmail;
     public InputField loginPassword;
 
-    public Text errorText;
+    [Header ("Creature Screen")]
+    public Text UsernameText;
 
     void Start() {
         transform.localScale = new Vector3 (Screen.width / modelWidth, Screen.height / modelHeight, 1);
@@ -67,6 +73,7 @@ public class UIManager : MonoBehaviour {
 
     public void SpawnMenuScreen () {
         DeactivateScreens ();
+        UsernameText.text = "Hello, " + gm.username + "!";
         menuScreen.SetActive (true);
     }
 

@@ -567,7 +567,7 @@ ScriptsOnlyBuild:
     className: ControlTrack
   - hash:
       serializedVersion: 2
-      Hash: d9b553ba94830d58b31253acdf57c39b
+      Hash: 716f3ae0460d6464970c873417d1da85
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -711,7 +711,7 @@ ScriptsOnlyBuild:
     className: TMP_ColorGradient
   - hash:
       serializedVersion: 2
-      Hash: d6e8daca1f15b161ea42c65a4fed999d
+      Hash: 70e321e75c79a283a71c3d7238cdb9b5
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: UIManager
@@ -736,4 +736,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: D:/Desktop/ok.apk
+  playerPath: D:/Orca/Projects/PokemonStop/Build.apk
