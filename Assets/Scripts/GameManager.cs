@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour {
     public int creatureMaxXP;
 
     void Start() {
-        Input.location.Start ();
+        Input.location.Start (2, 2);
         httpReq = transform.GetComponent<HTTPRequester>();
         token = PlayerPrefs.GetString ("token", "");
     }
