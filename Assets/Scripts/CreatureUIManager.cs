@@ -43,7 +43,7 @@ public class CreatureUIManager : MonoBehaviour
         DistanceText.color = new Color (255, 255, 255);
 
         if (gm.distanceFromHome == null) {
-            DistanceText.text = "-";
+            DistanceText.text = "0m";
         } else {
             DistanceText.text = gm.distanceFromHome + "m";
             if (int.Parse (gm.distanceFromHome) > 50) {

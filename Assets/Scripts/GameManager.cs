@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour {
     public CreatureUIManager creatureUIMan;
     private HTTPRequester httpReq;
 
+    private AndroidJavaObject plugin;
+
     [HideInInspector]
     public string token;
     [HideInInspector]
@@ -36,11 +38,11 @@ public class GameManager : MonoBehaviour {
     public void InitDaemon () {
         AndroidJavaClass unityPlayer = new AndroidJavaClass ("com.unity3d.player.UnityPlayer");
         AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject> ("currentActivity");
-        AndroidJavaObject plugin = new AndroidJavaObject ("com.hashtagh.pokeservice.PingerClass");
+        plugin = new AndroidJavaObject ("com.hashtagh.pokeservice.PingerClass");
         
         plugin.Call ("initialize", activity, token);
         uiMan.SpawnMenuScreen ();
-        InvokeRepeating ("UpdateUserData", 0, 5);
+        InvokeRepeating ("UpdateUserData", 0, 60);
     }
 
     public void UpdateUserData () {
@@ -91,6 +93,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void Logout () {
+        plugin.Call ("stop");
         CancelInvoke ("UpdateUserData");
         PlayerPrefs.SetString ("token", "");
         token = "";

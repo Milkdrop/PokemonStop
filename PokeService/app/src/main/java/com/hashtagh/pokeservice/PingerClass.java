@@ -9,7 +9,7 @@ import android.util.Log;
 
 public class PingerClass {
     public static Context context;
-    public static String notifChannelID = "pokeServiceChannel";
+    public static Intent serviceIntent;
 
     public void initialize (Context _context, String token) {
         this.context = _context;
@@ -18,24 +18,28 @@ public class PingerClass {
         createNotificationChannel ();
         Log.i ("Unity", "Notification Channel created");
 
-        Intent serviceIntent = new Intent (context, BGService.class);
+        serviceIntent = new Intent (context, BGService.class);
         serviceIntent.putExtra ("token", token);
-        context.startService(serviceIntent);
 
-        /*if (Build.VERSION.SDK_INT >= 26) {
+        if (Build.VERSION.SDK_INT >= 26) {
             context.startForegroundService(serviceIntent);
         } else {
             context.startService(serviceIntent);
-        }*/
+        }
 
         Log.i ("Unity", "Daemon started");
+    }
+
+    public void stop () {
+        Log.i ("Unity", "User requested service stop");
+        context.stopService (serviceIntent);
     }
 
     private void createNotificationChannel () {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel = new NotificationChannel (
-                    notifChannelID,
-                    "PokeService Channel",
+                    "stayHomeChannel",
+                    "#StayHome Channel",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
 

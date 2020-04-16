@@ -11,14 +11,87 @@ import android.util.Log;
 
 public class BGService extends Service {
     public Handler handler = null;
-    public static Runnable runnable = null;
+    public Runnable runnable = null;
 
-    private String token;
-    private LocationManager locationManager;
+    public static String token = "";
+    public boolean serviceRunning = false;
+    public PendingIntent pendingIntent;
+    public LocationManager locationManager;
+    private SharedPreferences prefMan;
 
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public void onCreate() {
+        Log.i ("Unity", "Creating Service...");
+
+        prefMan = this.getSharedPreferences("Pref", 0);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        handler = new Handler();
+
+        token = prefMan.getString ("serviceToken", "");
+        Log.i ("Unity", "Saved token value: " + token);
+
+        if (!token.equals ("")) {
+            startService ();
+        } else {
+            Log.i ("Unity", "Waiting for onStartCommand to set our token");
+        }
+    }
+
+    @Override
+    public int onStartCommand (Intent intent, int flags, int startId) {
+        token = intent.getStringExtra ("token");
+        pendingIntent = PendingIntent.getService (this, 0, intent, 0);
+
+        SharedPreferences.Editor editor = prefMan.edit();
+        editor.putString ("serviceToken", token);
+        editor.commit();
+
+        startService ();
+        return Service.START_STICKY;
+    }
+
+    public void startService () {
+        if (serviceRunning) {
+            Log.i ("Unity", "Tried to start service when it was already started?");
+            return;
+        }
+        serviceRunning = true;
+
+        handler.removeCallbacks (runnable);
+        runnable = new Runnable() {
+            public void run() {
+                Log.i ("Unity", "Service Ping");
+                Location location = getLastBestLocation ();
+                Log.i ("Unity","Latitude: " + location.getLatitude());
+                Log.i ("Unity","Longitude: " + location.getLongitude());
+
+                String data = "{\"lat\":\"" + location.getLatitude() + "\", \"long\":\"" + location.getLongitude() + "\"}";
+
+                new HttpRequester().execute ("https://api.peymen.com/location", token, data);
+                handler.postDelayed (runnable, 10000);
+            }
+        };
+
+        handler.postDelayed (runnable, 10000);
+
+        if (Build.VERSION.SDK_INT >= 26) {
+            Log.i("Unity", "Creating notification");
+            Notification notification = new Notification.Builder(this, "stayHomeChannel")
+                    .setContentTitle("#StayHome")
+                    .setContentText("Your location is currently being tracked")
+                    .setSmallIcon(R.drawable.ic_android)
+                    .setContentIntent(pendingIntent)
+                    .build();
+
+            startForeground(1, notification);
+        }
+
+        Log.i ("Unity", "Service Created!");
     }
 
     public Location getLastBestLocation() {
@@ -43,51 +116,13 @@ public class BGService extends Service {
     }
 
     @Override
-    public void onCreate() {
-        Log.i ("Unity", "Creating Service...");
-        this.locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        handler = new Handler();
-        runnable = new Runnable() {
-            public void run() {
-                Log.i ("Unity", "Service Ping");
-                Location location = getLastBestLocation ();
-                Log.i ("Unity","Latitude: " + location.getLatitude());
-                Log.i ("Unity","Longitude: " + location.getLongitude());
-
-                String data = "{\"lat\":\"" + location.getLatitude() + "\", \"long\":\"" + location.getLongitude() + "\"}";
-
-                new HttpRequester().execute ("https://api.peymen.com/location", token, data);
-                handler.postDelayed (runnable, 10000);
-            }
-        };
-
-        handler.postDelayed (runnable, 10000);
-
-        /*Intent notificationIntent = new Intent (PingerClass.context, PingerClass.class);
-        PendingIntent pendingIntent = PendingIntent.getService (PingerClass.context, 0, notificationIntent, 0);
-
-        Log.i ("Unity","Creating notification");
-        Notification notification = new NotificationCompat.Builder (PingerClass.context, PingerClass.notifChannelID)
-                .setContentTitle ("Alt text exemplu")
-                .setContentText ("Exemplu de continut")
-                .setSmallIcon (R.drawable.ic_android)
-                .setContentIntent (pendingIntent)
-                .build ();
-
-        Log.i ("Unity", "Starting foreground notification...");
-        startForeground (1, notification);*/
-        Log.i ("Unity", "Service Created!");
-    }
-
-    @Override
-    public int onStartCommand (Intent intent, int flags, int startId) {
-        this.token = intent.getStringExtra ("token");
-        return Service.START_REDELIVER_INTENT;
-    }
-
-    @Override
     public void onDestroy() {
-        Log.i("Unity", "Service Stopped?");
+        SharedPreferences.Editor editor = prefMan.edit();
+        editor.remove("serviceToken");
+        editor.commit();
+
+        Log.i("Unity", "Service Stopped");
+        handler.removeCallbacks (runnable);
+        serviceRunning = false;
     }
 }
