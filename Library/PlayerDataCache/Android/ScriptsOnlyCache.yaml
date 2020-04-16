@@ -1,10 +1,12 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - Creature
     - CreatureUIManager
     - GameManager
     - HTTPRequester
     - LeaderboardEntry
+    - ShopEntry
     - UIManager
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
@@ -91,6 +93,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 70732}
     - Class: 114
       Script: {instanceID: 96002}
+    - Class: 114
+      Script: {instanceID: 180692}
+    - Class: 114
+      Script: {instanceID: 209628}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -596,7 +602,7 @@ ScriptsOnlyBuild:
     className: ControlTrack
   - hash:
       serializedVersion: 2
-      Hash: 4844eabef0e5bba45441906e23339679
+      Hash: 996e02e586c0c89c70d2d1c74bc4ae07
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -764,7 +770,7 @@ ScriptsOnlyBuild:
     className: PlayableTrack
   - hash:
       serializedVersion: 2
-      Hash: f7269640f37aca98018fa5873fb8197c
+      Hash: c842d16b6411ea66029bfdbe4f746496
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: CreatureUIManager
@@ -774,6 +780,24 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LeaderboardEntry
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: AutoCenter
+  - hash:
+      serializedVersion: 2
+      Hash: a7c077f4e1b7a78c7b7e9319cdac4bd0
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ShopEntry
+  - hash:
+      serializedVersion: 2
+      Hash: 4b08d7a3eaa9efc99f27506ae91a3293
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Creature
   platform: 13
   scenePathNames:
   - Assets/Scenes/SampleScene.unity

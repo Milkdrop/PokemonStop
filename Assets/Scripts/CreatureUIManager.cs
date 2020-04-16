@@ -28,6 +28,12 @@ public class CreatureUIManager : MonoBehaviour
     public GameObject LeaderboardEntry;
     public Transform LeaderboardContentParent;
 
+    [Header ("Shop")]
+    private float lastShopUpdate;
+    public GameObject ShopScreen;
+    public Text BalanceRP;
+    public Transform ShopItemsParent;
+
     void Start () {
         LoadingScreen.SetActive (true);
         for (int i = 0; i < 100; i++) {
@@ -75,6 +81,79 @@ public class CreatureUIManager : MonoBehaviour
                 child.gameObject.SetActive (true);
             else
                 child.gameObject.SetActive (false);
+        }
+    }
+
+    public void UpdateCreatureCostumes () {
+        for (int i = 0; i < Creatures.childCount; i++) {
+            Creature creature = Creatures.GetChild (i).GetComponent<Creature> ();
+            creature.ClearCosmetics ();
+
+            for (int k = 0; k < gm.Costumes.Count; k++) {
+                int objectID = gm.Costumes[k] - 1;
+                creature.ActivateCosmetic (objectID);
+            }
+        }
+        
+        UpdateShopScreen ();
+    }
+
+    public void ToggleShopScreen () {
+        bool isActive = ShopScreen.activeSelf;
+        
+        DeactivateScreens ();
+        if (!isActive) {
+            if (lastShopUpdate == 0 || Time.time - lastShopUpdate > 60) {
+                lastShopUpdate = Time.time;
+                StartCoroutine (httpReq.GET ("/shop", PopulateShopData));
+            } else {
+                ShopScreen.SetActive (true);
+            }
+        }
+
+        UpdateShopScreen ();
+    }
+
+    public void UpdateShopScreen () {
+        BalanceRP.text = gm.researchPoints + "RP";
+        for (int i = 0; i < ShopItemsParent.childCount; i++) {
+            ShopEntry entry = ShopItemsParent.GetChild (i).GetComponent<ShopEntry> ();
+            int costumeID = i + 1;
+
+            if (entry.itemPrice > gm.researchPoints || gm.Costumes.IndexOf (costumeID) != -1) {
+                entry.SetBuyInteractable (false);
+            } else {
+                entry.SetBuyInteractable (true);
+            }
+        }
+    }
+
+    public void PopulateShopData (int responseCode, string data) {
+        bool valid = false;
+
+        if (responseCode == 200) {
+            List<Dictionary<string,string>> response = JsonConvert.DeserializeObject<List<Dictionary<string,string>>>(data);
+
+            for (int i = 0; i < response.Count; i++) {
+                ShopEntry entry = ShopItemsParent.GetChild (i).GetComponent<ShopEntry> ();
+                int costumeID = i + 1;
+
+                entry.id = costumeID;
+                entry.itemName.text = response[i]["costume_name"];
+                entry.itemPriceText.text = response[i]["costume_price"] + "RP";
+                entry.gm = gm;
+                entry.itemPrice = int.Parse (response[i]["costume_price"]);
+            }
+            valid = true;
+        } else {
+            uiMan.PushError ("Unknown Error");
+        }
+
+        if (valid) {
+            UpdateShopScreen ();
+            ShopScreen.SetActive (true);
+        } else {
+            uiMan.PushError ("Unknown Error");
         }
     }
 

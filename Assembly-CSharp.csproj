@@ -55,10 +55,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\AutoCenter.cs" />
+     <Compile Include="Assets\Scripts\Creature.cs" />
      <Compile Include="Assets\Scripts\CreatureUIManager.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\HTTPRequester.cs" />
      <Compile Include="Assets\Scripts\LeaderboardEntry.cs" />
+     <Compile Include="Assets\Scripts\ShopEntry.cs" />
      <Compile Include="Assets\Scripts\UIManager.cs" />
      <None Include="Assets\ReversedText.shader" />
  <Reference Include="Unity.Timeline.Editor">

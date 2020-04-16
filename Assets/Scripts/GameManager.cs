@@ -29,6 +29,12 @@ public class GameManager : MonoBehaviour {
     [HideInInspector]
     public int creatureMaxXP;
 
+    [HideInInspector]
+    public int researchPoints;
+
+    [HideInInspector]
+    public List<int> Costumes;
+
     void Start() {
         Input.location.Start (2, 2);
         httpReq = transform.GetComponent<HTTPRequester>();
@@ -43,6 +49,7 @@ public class GameManager : MonoBehaviour {
         plugin.Call ("initialize", activity, token);
         uiMan.SpawnMenuScreen ();
         InvokeRepeating ("UpdateUserData", 0, 60);
+        UpdateCostumes ();
     }
 
     public void UpdateUserData () {
@@ -62,6 +69,7 @@ public class GameManager : MonoBehaviour {
                 creatureLevel = int.Parse (response["level"]);
                 creatureXP = int.Parse (response["exp"]);
                 creatureMaxXP = int.Parse (response["max_exp"]);
+                researchPoints = int.Parse (response["research_points"]);
 
                 uiMan.PushError ("");
                 valid = true;
@@ -76,6 +84,44 @@ public class GameManager : MonoBehaviour {
         
         if (valid) {
             creatureUIMan.UpdateMenuScreen ();
+        } else {
+            uiMan.PushError ("Couldn't fetch player data");
+        }
+    }
+
+    public void BuyItem (int id, int price) {
+        if (researchPoints >= price)
+            researchPoints -= price;
+        StartCoroutine (httpReq.GET ("/shop/buy/" + id, UpdateCostumes));
+    }
+
+    public void UpdateCostumes (int responseCode, string data) {
+        UpdateCostumes ();
+    }
+
+    public void UpdateCostumes () {
+        StartCoroutine (httpReq.GET ("/my-costumes", UpdateCostumeData));
+    }
+
+    public void UpdateCostumeData (int responseCode, string data) {
+        bool valid = false;
+
+        if (responseCode == 200) {
+            List<Dictionary<string,string>> response = JsonConvert.DeserializeObject<List<Dictionary<string,string>>>(data);
+            Costumes = new List<int>();
+
+            for (int i = 0; i < response.Count; i++) {
+                Costumes.Add (int.Parse (response[i]["costume_id"]));
+            }
+
+            valid = true;
+        } else {
+            uiMan.PushError ("Unknown Error");
+        }
+        
+        if (valid) {
+            creatureUIMan.UpdateCreatureCostumes ();
+            UpdateUserData ();
         } else {
             uiMan.PushError ("Couldn't fetch player data");
         }
