@@ -23,6 +23,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
     - UnityEngine.UI.InputField
+    - UnityEngine.UI.Shadow
     - UnityEngine.UI.Text
   sceneClasses:
     Assets/Scenes/SampleScene.unity:
@@ -66,6 +67,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 9392}
     - Class: 114
       Script: {instanceID: 9394}
+    - Class: 114
+      Script: {instanceID: 9424}
     - Class: 114
       Script: {instanceID: 9428}
     - Class: 114

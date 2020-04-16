@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour {
         }
         
         if (valid) {
+            CancelInvoke ("RequestCreatureData");
             InvokeRepeating ("RequestCreatureData", 0, 5);
         } else {
             Logout ();
@@ -110,6 +111,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void Logout () {
+        CancelInvoke ("RequestCreatureData");
         PlayerPrefs.SetString ("token", "");
         token = "";
         uiMan.SpawnRegisterScreen ();
