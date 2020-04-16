@@ -1,8 +1,10 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - CreatureUIManager
     - GameManager
     - HTTPRequester
+    - LeaderboardEntry
     - UIManager
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
@@ -23,6 +25,8 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
     - UnityEngine.UI.InputField
+    - UnityEngine.UI.Mask
+    - UnityEngine.UI.ScrollRect
     - UnityEngine.UI.Shadow
     - UnityEngine.UI.Text
   sceneClasses:
@@ -54,31 +58,39 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 9370}
+      Script: {instanceID: 9374}
     - Class: 114
-      Script: {instanceID: 9372}
+      Script: {instanceID: 9376}
     - Class: 114
-      Script: {instanceID: 9378}
-    - Class: 114
-      Script: {instanceID: 9380}
+      Script: {instanceID: 9382}
     - Class: 114
       Script: {instanceID: 9384}
     - Class: 114
-      Script: {instanceID: 9392}
+      Script: {instanceID: 9388}
     - Class: 114
-      Script: {instanceID: 9394}
+      Script: {instanceID: 9396}
+    - Class: 114
+      Script: {instanceID: 9398}
+    - Class: 114
+      Script: {instanceID: 9404}
     - Class: 114
       Script: {instanceID: 9424}
     - Class: 114
       Script: {instanceID: 9428}
     - Class: 114
-      Script: {instanceID: 9430}
+      Script: {instanceID: 9432}
     - Class: 114
-      Script: {instanceID: 9472}
+      Script: {instanceID: 9434}
     - Class: 114
-      Script: {instanceID: 9762}
+      Script: {instanceID: 9476}
     - Class: 114
-      Script: {instanceID: 10434}
+      Script: {instanceID: 9766}
+    - Class: 114
+      Script: {instanceID: 10440}
+    - Class: 114
+      Script: {instanceID: 70732}
+    - Class: 114
+      Script: {instanceID: 96002}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -584,7 +596,7 @@ ScriptsOnlyBuild:
     className: ControlTrack
   - hash:
       serializedVersion: 2
-      Hash: 75d4f23486248c0338a58e2251e47c10
+      Hash: 4844eabef0e5bba45441906e23339679
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -728,7 +740,7 @@ ScriptsOnlyBuild:
     className: TMP_ColorGradient
   - hash:
       serializedVersion: 2
-      Hash: 0077012b11ececa3ed9bceef450942a9
+      Hash: 4ea656d33bdc4030736959d96f0a6251
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: UIManager
@@ -750,6 +762,18 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: f7269640f37aca98018fa5873fb8197c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: CreatureUIManager
+  - hash:
+      serializedVersion: 2
+      Hash: cfd3b4e4790f5c5476fa62ef472cc97b
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: LeaderboardEntry
   platform: 13
   scenePathNames:
   - Assets/Scenes/SampleScene.unity

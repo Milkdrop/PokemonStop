@@ -1,9 +1,12 @@
 package com.hashtagh.pokeservice;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.*;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.*;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 public class BGService extends Service {
@@ -55,13 +58,27 @@ public class BGService extends Service {
                 String data = "{\"lat\":\"" + location.getLatitude() + "\", \"long\":\"" + location.getLongitude() + "\"}";
 
                 new HttpRequester().execute ("https://api.peymen.com/location", token, data);
-                handler.postDelayed (runnable, 5000);
+                handler.postDelayed (runnable, 10000);
             }
         };
 
-        handler.postDelayed (runnable, 5000);
+        handler.postDelayed (runnable, 10000);
+
+        /*Intent notificationIntent = new Intent (PingerClass.context, PingerClass.class);
+        PendingIntent pendingIntent = PendingIntent.getService (PingerClass.context, 0, notificationIntent, 0);
+
+        Log.i ("Unity","Creating notification");
+        Notification notification = new NotificationCompat.Builder (PingerClass.context, PingerClass.notifChannelID)
+                .setContentTitle ("Alt text exemplu")
+                .setContentText ("Exemplu de continut")
+                .setSmallIcon (R.drawable.ic_android)
+                .setContentIntent (pendingIntent)
+                .build ();
+
+        Log.i ("Unity", "Starting foreground notification...");
+        startForeground (1, notification);*/
         Log.i ("Unity", "Service Created!");
-}
+    }
 
     @Override
     public int onStartCommand (Intent intent, int flags, int startId) {

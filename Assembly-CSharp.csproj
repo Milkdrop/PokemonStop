@@ -55,8 +55,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\CreatureUIManager.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\HTTPRequester.cs" />
+     <Compile Include="Assets\Scripts\LeaderboardEntry.cs" />
      <Compile Include="Assets\Scripts\UIManager.cs" />
      <None Include="Assets\ReversedText.shader" />
  <Reference Include="Unity.Timeline.Editor">
@@ -254,6 +256,9 @@
  <Reference Include="nunit.framework">
  <HintPath>D:/Program Files/Unity Editors/2019.1.14f1/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
  </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>D:/Orca/Projects/PokemonStop/Assets/Newtonsoft.Json.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.Analytics.Editor">
  <HintPath>D:/Orca/Projects/PokemonStop/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
  </Reference>
@@ -262,9 +267,6 @@
  </Reference>
  <Reference Include="Unity.Analytics.Tracker">
  <HintPath>D:/Orca/Projects/PokemonStop/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
- </Reference>
- <Reference Include="Newtonsoft.Json">
- <HintPath>D:/Orca/Projects/PokemonStop/Assets/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>D:/Program Files/Unity Editors/2019.1.14f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

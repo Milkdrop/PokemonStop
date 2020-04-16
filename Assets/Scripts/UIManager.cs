@@ -27,14 +27,6 @@ public class UIManager : MonoBehaviour {
     public InputField loginEmail;
     public InputField loginPassword;
 
-    [Header ("Creature Screen")]
-    public GameObject FetchingMask;
-    public Transform Creatures;
-    public Text UsernameText;
-    public Text DayCounterText;
-    public RectTransform XPBarFill;
-    public Text XPText;
-
     void Start() {
         transform.localScale = new Vector3 (Screen.width / modelWidth, Screen.height / modelHeight, 1);
 
@@ -68,7 +60,38 @@ public class UIManager : MonoBehaviour {
 
     public void SpawnRegisterScreen () {
         DeactivateScreens ();
+        UpdateRegisterScreen ();
         registerScreen.SetActive (true);
+    }
+
+    public void UpdateRegisterScreen () {
+        StartCoroutine (UpdateRegisterLocation ());
+    }
+
+    private IEnumerator UpdateRegisterLocation () {
+        if (!Input.location.isEnabledByUser) {
+            Debug.Log ("User didn't enable location");
+            yield break;
+        }
+
+        int maxWait = 20;
+        while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0) {
+            Debug.Log ("Initializing location services");
+            yield return new WaitForSeconds(1);
+            maxWait--;
+        }
+
+        if (maxWait == 0) {
+            Debug.Log ("Timed out while obtaining location");
+            yield break;
+        }
+
+        if (Input.location.status == LocationServiceStatus.Failed) {
+            Debug.Log ("Unable to determine device location");
+            yield break;
+        } else {
+            registerLocation.text = Input.location.lastData.latitude + ", " + Input.location.lastData.longitude;
+        }
     }
 
     public void SpawnLoginScreen () {
@@ -79,36 +102,6 @@ public class UIManager : MonoBehaviour {
     public void SpawnMenuScreen () {
         DeactivateScreens ();
         menuScreen.SetActive (true);
-    }
-
-    public void UpdateMenuScreen () {
-        FetchingMask.SetActive (false);
-        UsernameText.text = "Hello, " + gm.username + "!";
-        DayCounterText.text = gm.creatureLevel + "";
-        XPText.text = gm.creatureXP + "/" + gm.creatureMaxXP + "xp";
-
-        if (gm.creatureXP == 0) {
-            XPBarFill.sizeDelta = new Vector2 (0, XPBarFill.rect.height);
-        } else {
-            int width = 50 + (gm.creatureXP / gm.creatureMaxXP) * (633 - 50);
-            XPBarFill.sizeDelta = new Vector2 (width, XPBarFill.rect.height);
-        }
-        
-        int creatureEvolution = 0;
-        if (gm.creatureLevel >= 30) {
-            creatureEvolution = 2;
-        } else if (gm.creatureLevel >= 5) {
-            creatureEvolution = 1;
-        }
-
-        for (int i = 0; i < Creatures.childCount; i++) {
-            GameObject child = Creatures.GetChild (i).gameObject;
-
-            if (i == creatureEvolution)
-                child.gameObject.SetActive (true);
-            else
-                child.gameObject.SetActive (false);
-        }
     }
 
     void DeactivateScreens () {
